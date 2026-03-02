@@ -5,7 +5,7 @@ import SpecialPuja from './components/SpecialPuja/SpecialPuja';
 import Reviews from './components/Reviews/Reviews';
 import AboutStats from './components/AboutStats/AboutStats';
 import Features from './components/Features/Features';
-import ArticlesSection from './components/ArticlesSection/ArticleSection';
+// import ArticlesSection from './components/ArticlesSection/ArticleSection';
 import Footer from './components/Footer/Footer';
 import Faqs from './components/Faqs/Faqs';
 import PujaList from './components/PujaList/PujaList';
@@ -34,7 +34,7 @@ function App() {
             <Reviews />
             <AboutStats />
             <Features />
-            <ArticlesSection />
+            {/* <ArticlesSection /> */}
             <Footer />
           </Layout>
         } />

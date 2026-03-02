@@ -99,7 +99,6 @@ function Layout({ children }) {
                 <nav className="nav-container">
                     <Link to="/" className="logo">
                         <img src="/logo.png" alt="Shri AAUM" className="logo-img" />
-                        <span>SHRI AAUM</span>
                     </Link>
                     <ul className="nav-links">
                         <li>
@@ -150,10 +149,10 @@ function Layout({ children }) {
                         {/* <li><a href="#library" onClick={closeMenu}>Library</a></li> */}
                     </ul>
                     <div className="nav-right">
-                        <select className="language-selector">
+                        {/* <select className="language-selector">
                             <option>English</option>
                             <option>Hindi</option>
-                        </select>
+                        </select> */}
 
                         {/* ⭐ 🔥 PERFECT CONDITIONAL LOGIN/PROFILE */}
                         {isLoggedIn ? (
