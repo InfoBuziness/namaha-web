@@ -4,10 +4,9 @@ import Footer from '../Footer/Footer';
 
 function About() {
   const stats = [
-    { id: 1, icon: '🙏', value: '30M+', label: 'Devotees' },
+    { id: 1, icon: '🙏', value: '10k', label: 'Devotees' },
     { id: 2, icon: '⭐', value: '4.5', label: 'Star Rating' },
-    { id: 3, icon: '🌐', value: '30+', label: 'Countries' },
-    { id: 4, icon: '🔥', value: '3M+', label: 'Services' },
+    { id: 4, icon: '🔥', value: '10k+', label: 'Services' },
   ];
 
   return (

@@ -83,6 +83,22 @@
   margin: 0;
 }
 
+.contact-info-item a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #25d366;
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.contact-info-item a:hover {
+  color: #128c7e;
+  text-decoration: underline;
+  transform: translateX(2px);
+}
+
 .contact-form-wrap {
   background: #f8fafc;
   border-radius: 16px;

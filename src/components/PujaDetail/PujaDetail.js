@@ -68,46 +68,6 @@ const INCLUDES = [
   "A free Aashirwad Box with Tirth Prasad will be delivered to your home if you opt in to receive it.",
 ];
 
-const TESTIMONIALS = [
-  { type: "video", name: "Achutam Nair", location: "Bangalore" },
-  {
-    text: "So many puja options for all the devotees. Great to get the grace of god from our homes. Most authentic and trustworthy puja service compared to others.",
-    name: "Ramesh Chandra Bhatt",
-    location: "Nagpur",
-  },
-  {
-    text: "I really like the whole process of puja at Shri aaum. Puja is conducted properly and customer support is available throughout the process. I asked questions to Mamta Maam and she resolved my queries. Most genuine and authentic.",
-    name: "Aperna Mal",
-    location: "Puri",
-  },
-  {
-    text: "Liked the fact that we can book puja online else have to travel to get everything done. Felt very nice to hear my name and gotra during the puja of Mahadev. Prasad was also received in time.",
-    name: "Shivraj Dobhi",
-    location: "Agra",
-  },
-];
-
-const USER_REVIEWS = [
-  {
-    name: "Riya Das",
-    date: "23 July, 2025",
-    stars: 5,
-    text: "Thank you so much Shri aaum for conducting the puja for those who can not go to the temple from so far. I am Happy to heard my name and gotra sankalp in the puja video. Jai Sri Gouri Kedareswar Mahadev",
-  },
-  {
-    name: "Suvomoy Bhowmick samarpitaa Bhowmick",
-    date: "22 July, 2025",
-    stars: 5,
-    text: "Thank you for your support and devotion in this spiritual journey. 🙏",
-  },
-  {
-    name: "Nita Inamdar",
-    date: "22 July, 2025",
-    stars: 5,
-    text: "Gratitude to all the pandit ji's for conducting puja on our behalf.",
-  },
-];
-
 const FAQ_ITEMS = [
   {
     q: "Why should I choose SriMandir for performing a Puja?",
@@ -161,7 +121,6 @@ function PujaDetail() {
 
   const [activeTab, setActiveTab] = useState("about");
   const [openFaq, setOpenFaq] = useState(null);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [isNavSticky, setIsNavSticky] = useState(false);
   const [prasadam, setPrasadam] = useState(false);
   const [addonQuantities, setAddonQuantities] = useState({});
@@ -500,7 +459,7 @@ function PujaDetail() {
             </p>
             {/* duration: estimated puja time */}
             {/* <p className="pd-purpose">Duration: {puja.duration}</p> */}
-            <p className="pd-purpose">Mode: {puja.mode}</p>
+            {/* <p className="pd-purpose">Mode: {puja.mode}</p> */}
             <p className="pd-countdown-label">Puja booking will close in:</p>
             <div className="pd-countdown">
               <div className="pd-countdown-item">
@@ -749,7 +708,7 @@ function PujaDetail() {
                   checked={prasadam}
                   onChange={(e) => setPrasadam(e.target.checked)}
                 />
-                <span>Prasadam (complementary)</span>
+                <span>Prasadam (complimentary )</span>
               </label>
             </div>
 
@@ -764,7 +723,7 @@ function PujaDetail() {
         </div>
 
         {/* Reviews & Ratings */}
-        <section
+        {/* <section
           className="pd-section pd-reviews-ratings"
           ref={(el) => {
             sectionRefs.current.reviews = el;
@@ -823,10 +782,10 @@ function PujaDetail() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* User Reviews */}
-        <section className="pd-section pd-user-reviews">
+        {/* <section className="pd-section pd-user-reviews">
           <div className="pd-section-content">
             <h2 className="pd-section-title">User Reviews</h2>
             <p className="pd-user-reviews-sub">
@@ -853,7 +812,7 @@ function PujaDetail() {
               View More
             </button>
           </div>
-        </section>
+        </section> */}
 
         {/* FAQs */}
         <section
