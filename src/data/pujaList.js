@@ -93,6 +93,7 @@ export const PUJA_LIST = [
     promoText: "Maha Ganapathi Puja - Remove obstacles and gain success",
     category: "GANESHA PUJA",
     title: "Maha Ganapathi Homam",
+    description: "Removes obstacles and brings prosperity.",
     purpose: "Removes obstacles and brings prosperity",
     location: "Tirupati Temple, India",
     templeName: "Tirupati Temple",

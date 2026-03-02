@@ -58,8 +58,9 @@
   position: absolute;
   left: 0;
   right: auto;
-  bottom: clamp(80px, 14vh, 140px);
-  top: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: auto;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -93,14 +94,16 @@
 
 
 .hero-subtitle {
-  font-size: clamp(1.1rem, 3.8vw, 1.35rem);
-  color: #FFF;
+  font-size: clamp(1rem, 3.2vw, 1.25rem);
+  color: #d1d5db;
   margin: 0;
   font-weight: 400;
-  opacity: 0.95;
-  font-style: italic;
-  line-height: 1.45;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   max-width: 95%;
+  text-align: left;
+  font-family: inherit;
 }
 
 /* Hero Buttons - responsive by viewport */
@@ -266,8 +269,9 @@
   .hero-content1 {
     left: 0;
     right: auto;
-    bottom: clamp(70px, 12vh, 120px);
-    top: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
     max-width: min(420px, 52%);
     padding: 0 clamp(1.5rem, 4vw, 2.5rem);
     align-items: flex-start;
@@ -303,8 +307,9 @@
   .hero-content1 {
     left: 0;
     right: auto;
-    bottom: clamp(60px, 10vh, 100px);
-    top: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
     max-width: 88%;
     padding: 0 1.25rem;
     align-items: flex-start;
@@ -408,10 +413,11 @@
     transform: none;
   }
 
-  /* Small phones: bottom-left */
+  /* Small phones: centered on left */
   .hero-content1 {
-    bottom: clamp(50px, 8vh, 70px);
-    top: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
     padding: 0 1rem;
     align-items: flex-start;
     text-align: left;
@@ -474,9 +480,9 @@
     left: clamp(1.5rem, 4vw, 2.5rem) !important;
     right: auto !important;
     margin: 0 !important;
-    bottom: clamp(70px, 12vh, 120px);
-    top: auto;
-    transform: none;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    bottom: auto;
     width: min(420px, 52%);
     max-width: min(420px, 52%);
     align-items: flex-start;

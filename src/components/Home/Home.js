@@ -17,7 +17,7 @@ const HERO_CONTENT = [
     twoButtons: false,
   },
   {
-    title: 'Temples. Teerth. Tattva. At Your Fingertips',
+    title: 'Temples Teerth Tatva within your reach',
     subtitle: 'Connect to sacred teerth kshetras and perform pujas from anywhere. Get Prasad at your doorstep.',
     twoButtons: false,
     // singleButtonLabel: 'Explore Now',
