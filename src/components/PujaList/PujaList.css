@@ -570,7 +570,7 @@
     width: calc(100% - 32px);
     margin: 16px;
     margin-top: auto;
-    background: #16a34a;
+    background: #ea580c;
     color: #fff;
     border: none;
     padding: 12px;
@@ -582,6 +582,11 @@
     display: block;
     text-align: center;
     box-sizing: border-box;
+    transition: background 0.2s ease;
+  }
+
+  .pl-card-participate:hover {
+    background: #c2410c;
   }
 
 @media (max-width: 768px) {

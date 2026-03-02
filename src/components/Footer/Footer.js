@@ -11,12 +11,10 @@ function Footer() {
         { label: 'Temples', href: '#' },
     ];
     const socialLinks = [
-        { name: 'YouTube', href: '#', icon: '▶' },
-        { name: 'Instagram', href: '#', icon: '📷' },
-        { name: 'LinkedIn', href: '#', icon: 'in' },
-        { name: 'WhatsApp', href: '#', icon: '💬' },
-        { name: 'X', href: '#', icon: '𝕏' },
-        { name: 'Facebook', href: '#', icon: 'f' },
+        { name: 'YouTube', href: 'https://youtube.com/@shri_aaum?si=5kOi-XTTaETP85jK', icon: '▶' },
+        { name: 'Instagram', href: 'https://www.instagram.com/shri_aaum', icon: '📷' },
+        { name: 'WhatsApp', href: 'https://wa.me/919848000000', icon: '💬' },
+        { name: 'Facebook', href: 'https://www.facebook.com/shri_aaum', icon: 'f' },
     ];
 
     return (
@@ -61,7 +59,7 @@ function Footer() {
                         </p>
                         <div className="footer-social">
                             {socialLinks.map((s) => (
-                                <a key={s.name} href={s.href} className="footer-social-icon" aria-label={s.name}>
+                                <a key={s.name} href={s.href} className="footer-social-icon" aria-label={s.name} target="_blank" rel="noopener noreferrer">
                                     {s.icon}
                                 </a>
                             ))}

@@ -20,8 +20,8 @@ const STEPS = [
   },
   {
     id: 3,
-    title: 'Chadhava Video',
-    description: 'The video of your Chadhava completed on your name will be shared here.',
+    title: 'Puja Video',
+    description: 'The video of your Puja completed on your name will be shared here.',
   },
 ];
 
@@ -34,10 +34,10 @@ function StatsEventUi() {
         {/* Top: Journey + Why + Stats */}
         <div className="chadhava-journey-block">
           <h2 className="chadhava-main-title">
-            Start your Sacred Journey with SHRI AAUM Chadhava Service
+            Start your Sacred Journey with SHRI AAUM Puja Service
           </h2>
           <p className="chadhava-subtitle">
-            Why make offerings through Shri aaum Chadhava SHRI AAUM?
+            Why make offerings through Shri aaum Puja?
           </p>
           <div className="chadhava-cards-row">
             {OFFERING_CARDS.map((card) => (
@@ -52,7 +52,7 @@ function StatsEventUi() {
         {/* Bottom: How it works + Steps + Phone mockup */}
         <div className="chadhava-how-block">
           <h2 className="chadhava-how-title">
-            How does SHRI AAUM Online Chadhava Works?
+            How does SHRI AAUM Online Works?
           </h2>
           <div className="chadhava-how-grid">
             <div className="chadhava-steps-col">

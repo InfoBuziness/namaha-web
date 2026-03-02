@@ -3,18 +3,9 @@ import './Home.css';
 
 // 🔹 Static images
 const Images = [
-  {
-    id: 1,
-    url: "https://imagesvs.oneindia.com/webp/img/2022/10/diwali-puja-1666587240.jpg"
-  },
-  {
-    id: 2,
-    url: "https://myborosil.com/cdn/shop/files/my-borosil-puja-thali-7-pc-set-samagri-borosil-puja-thali-34040434819210.jpg"
-  },
-  {
-    id: 3,
-    url: "https://shreesarvasiddhi.com/wp-content/uploads/2021/07/Laxmi-puja.jpeg"
-  }
+  { id: 1, url: "/hero-1.png" },
+  { id: 2, url: "/hero-2.png" },
+  { id: 3, url: "/hero-3.png" },
 ];
 
 // 🔹 Static hero text
