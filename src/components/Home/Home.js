@@ -36,7 +36,7 @@ const HERO_CONTENT = [
 const TRUST_STRIP_ITEMS = [
   { id: 1, icon: "shield", text: "Pujas Performed by Qualified Veda Pandits" },
   { id: 2, icon: "shield", text: "Puja Recordings within 48 hours" },
-  { id: 3, icon: "shield", text: "Prasad at your Doorstep in 10 days" },
+  { id: 3, icon: "shield", text: "Prasad at your Doorstep in 7-10 days" },
 ];
 
 function Home() {

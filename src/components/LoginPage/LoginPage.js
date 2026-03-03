@@ -31,7 +31,7 @@ function LoginPage() {
       
       if (res.data.success) {
         setStep(2);
-        setError('OTP sent successfully! (Use: 000000)');
+        setError('OTP sent successfully!');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send OTP');
@@ -131,7 +131,7 @@ function LoginPage() {
                 <input
                   type="tel"
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
+                  onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
                   placeholder="Enter 10-digit mobile"
                   maxLength={10}
                 />
@@ -162,7 +162,7 @@ function LoginPage() {
                 type="text"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                placeholder="000000"
+                placeholder="123456"
                 maxLength={6}
               />
             </div>

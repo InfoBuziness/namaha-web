@@ -5,11 +5,11 @@ import "./PujaDetail.css";
 import Footer from "../Footer/Footer";
 
 const SECTION_TABS = [
+  { id: "packages", label: "Packages" },
   { id: "about", label: "About Puja" },
   { id: "benefits", label: "Benefits" },
   { id: "process", label: "Process" },
   { id: "temple", label: "Temple Details" },
-  { id: "packages", label: "Packages" },
   { id: "reviews", label: "Reviews" },
   { id: "faqs", label: "FAQs" },
 ];
@@ -34,30 +34,50 @@ const PROCESS_STEPS = [
   },
 ];
 
+const PACKAGE_BULLETS = [
+  "The Puja will be performed by qualified Veda Pandits by following the right Puja Vidhi.",
+  "The Prasad will be delivered to your door step within 7-10 days and the puja video will be sent to your whatsapp within 24-48 hrs.",
+  "Since the Puja will be conducted at an auspicious time (at Shubh Muhurat), you will definitely get good results.",
+];
+
+const PACKAGE_IMAGES = {
+  Individual: "https://img.freepik.com/premium-photo/indian-girl-dressed-traditional-attire-performing-graceful-dhunuchi-dance-with-clay-incense-burner-vibrant-durga-puja-celebrations_748982-26973.jpg?semt=ais_rp_progressive&w=740&q=80",
+  Couple: "https://img.freepik.com/premium-photo/portrait-indian-married-couple-traditional-wear-namaskara-prayer-welcoming-pose-holding-puja-thali_466689-10276.jpg",
+  Family: "https://t3.ftcdn.net/jpg/09/48/77/26/360_F_948772697_m5ITrhbmM3FFkI0dNIm78wscg5D8GX6G.jpg",
+  "Joint Family": "https://img.freepik.com/premium-photo/indian-family-celebrating-gudi-padwa-ugadi-festival-while-lady-wife-holding-puja-pooja-thali-it-s-new-year-hindu-religion_466689-44362.jpg",
+};
+
+const getPackageDisplayName = (pkg) => {
+  const id = (pkg.id || "").toLowerCase();
+  const name = (pkg.name || "").toLowerCase();
+  const persons = pkg.persons ?? 1;
+  if (name === "individual" || id.includes("individual") || persons === 1) return "Individual";
+  if (name === "two person" || name.includes("partner") || name.includes("couple") || id.includes("partner") || id.includes("couple") || persons === 2) return "Couple";
+  if (name === "joint family" || name.includes("joint") || id.includes("joint") || persons >= 6) return "Joint Family";
+  return "Family";
+};
+
 const getPackages = (puja) => {
   if (puja?.packageDetails?.length > 0) {
-    return puja.packageDetails.map((pkg) => ({
-      // packageDetails may come from mapped data (id) or raw API (_id).
-      id: pkg.id || pkg._id,
-      name: pkg.name,
-      price:
-        typeof pkg.price === "string"
-          ? Number(pkg.price.replace(/[^0-9]/g, ""))
-          : Number(pkg.price),
-      persons: pkg.persons || 1,
-    }));
+    return puja.packageDetails.map((pkg) => {
+      const base = {
+        id: pkg.id || pkg._id,
+        name: pkg.name,
+price:
+          typeof pkg.price === "string"
+            ? Number(pkg.price.replace(/[^0-9]/g, ""))
+            : Number(pkg.price),
+        persons: pkg.persons || 1,
+      };
+      return { ...base, name: getPackageDisplayName(base) };
+    });
   }
 
   return [
-    { id: "individual", name: "Individual Puja", price: 851, persons: 1 },
-    { id: "partner", name: "Partner Puja", price: 1251, persons: 2 },
-    { id: "family", name: "Family + Bhog", price: 2001, persons: 4 },
-    {
-      id: "joint",
-      name: "Joint Family + Bhog + Flower Basket",
-      price: 3001,
-      persons: 6,
-    },
+    { id: "individual", name: "Individual", price: 851, persons: 1 },
+    { id: "partner", name: "Couple", price: 1251, persons: 2 },
+    { id: "family", name: "Family", price: 2001, persons: 4 },
+    { id: "joint", name: "Joint Family", price: 3001, persons: 6 },
   ];
 };
 
@@ -66,6 +86,13 @@ const INCLUDES = [
   "Participants will receive guided mantras and step-by-step instructions to join the puja from home.",
   "A complete video of the puja and offerings will be shared on your WhatsApp.",
   "A free Aashirwad Box with Tirth Prasad will be delivered to your home if you opt in to receive it.",
+];
+
+const HOW_IT_WORKS_STEPS = [
+  { id: "select", title: "Select Puja", icon: "grid" },
+  { id: "name-gotra", title: "Name and Gotra", icon: "form" },
+  { id: "watch", title: "Watch Puja Video", icon: "video" },
+  { id: "prashad", title: "Prashad Shipped", icon: "box" },
 ];
 
 const FAQ_ITEMS = [
@@ -124,10 +151,12 @@ function PujaDetail() {
   const [isNavSticky, setIsNavSticky] = useState(false);
   const [prasadam, setPrasadam] = useState(false);
   const [addonQuantities, setAddonQuantities] = useState({});
+  const [howItWorksHoverIndex, setHowItWorksHoverIndex] = useState(null);
 
   const sectionRefs = useRef({});
   const sectionNavRef = useRef(null);
   const stickyThresholdRef = useRef(null);
+  const stickyFooterRef = useRef(null);
 
   const slides = puja?.bannerUrls?.map((img) => img.url) || [];
 
@@ -508,6 +537,56 @@ function PujaDetail() {
           </div>
         </div>
 
+        {/* How it Works */}
+        <section className="pd-how-it-works">
+          <h2 className="pd-how-title">
+            <span className="pd-how-ornament">◆</span> How it Works <span className="pd-how-ornament">◆</span>
+          </h2>
+          <div className="pd-how-steps">
+            {HOW_IT_WORKS_STEPS.map((step, index) => (
+              <React.Fragment key={step.id}>
+                <div
+                  className="pd-how-step"
+                  onMouseEnter={() => setHowItWorksHoverIndex(index)}
+                  onMouseLeave={() => setHowItWorksHoverIndex(null)}
+                >
+                  <div
+                    className={`pd-how-icon-wrap ${step.icon === "video" ? "pd-how-icon-video" : ""}`}
+                  >
+                    {step.icon === "grid" && (
+                      <div className="pd-how-icon pd-how-icon-grid">
+                        <span /><span /><span /><span className="highlight" />
+                      </div>
+                    )}
+                    {step.icon === "form" && (
+                      <div className="pd-how-icon pd-how-icon-form">
+                        <div className="pd-how-form-field" />
+                        <div className="pd-how-form-check">✓</div>
+                      </div>
+                    )}
+                    {step.icon === "video" && (
+                      <div className="pd-how-icon pd-how-icon-video-inner">
+                        <div className="pd-how-video-play">▶</div>
+                      </div>
+                    )}
+                    {step.icon === "box" && (
+                      <div className="pd-how-icon pd-how-icon-box" />
+                    )}
+                  </div>
+                  <h3 className="pd-how-step-title">{step.title}</h3>
+                </div>
+                {index < HOW_IT_WORKS_STEPS.length - 1 && (
+                  <div className="pd-how-connector" aria-hidden="true">
+                    <div
+                      className={`pd-how-connector-fill ${howItWorksHoverIndex === index ? "filled" : ""}`}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
+
         {/* Section tabs */}
         <nav
           ref={sectionNavRef}
@@ -533,6 +612,91 @@ function PujaDetail() {
         {isNavSticky && (
           <div className="pd-section-nav-spacer" aria-hidden="true" />
         )}
+
+        {/* Package selection - first section */}
+        <section
+          className="pd-section pd-packages"
+          ref={(el) => {
+            sectionRefs.current.packages = el;
+          }}
+        >
+          <div className="pd-section-content">
+            <h2 className="pd-section-title">Select your puja package</h2>
+            <div className="pd-package-cards">
+              {getPackages(puja).map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className={`pd-package-card ${
+                    selectedPackage?.id === pkg.id ? "selected" : ""
+                  }`}
+                >
+                  <div
+                    className="pd-package-image-wrap"
+                    style={{
+                      backgroundImage: `url(${pkg.image || PACKAGE_IMAGES[pkg.name] || "https://www.shutterstock.com/image-photo/modern-women-wear-fancy-saree-260nw-2575893271.jpg"})`,
+                    }}
+                  />
+                  <span className="pd-package-price-tag">₹{pkg.price?.toLocaleString("en-IN")}</span>
+                  <div className="pd-package-body">
+                    <h3 className="pd-package-name">{pkg.name}</h3>
+                    <ul className="pd-package-bullets">
+                      {PACKAGE_BULLETS.map((bullet, i) => (
+                        <li key={i}>{bullet}</li>
+                      ))}
+                    </ul>
+                    <button
+                      type="button"
+                      className="pd-package-btn"
+                      onClick={() => {
+                        setSelectedPackage(pkg);
+                        setTimeout(() => {
+                          stickyFooterRef.current?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "end",
+                          });
+                        }, 50);
+                      }}
+                    >
+                      BOOK PUJA
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Sticky footer CTA - below packages */}
+        <div className="pd-sticky-footer" ref={stickyFooterRef}>
+          <div className="pd-sticky-content">
+            <div className="pd-sticky-left">
+              <div className="pd-sticky-price-block">
+                <span className="pd-sticky-price">
+                  {selectedPackage?.price?.toLocaleString("en-IN") || "0"}
+                </span>
+                <span className="pd-sticky-name">
+                  {selectedPackage?.name || "Select Package"}
+                </span>
+              </div>
+              <label className="pd-sticky-prasadam">
+                <input
+                  type="checkbox"
+                  checked={prasadam}
+                  onChange={(e) => setPrasadam(e.target.checked)}
+                />
+                <span>Prasadam (complimentary )</span>
+              </label>
+            </div>
+
+            <button
+              className={`pd-sticky-btn ${puja?.soldTag ? "sold-out" : ""}`}
+              onClick={handleGoToBilling}
+              disabled={loading || puja?.soldTag}
+            >
+              {puja?.soldTag ? "SOLD OUT" : loading ? "⏳ Processing..." : "Proceed to Payment →"}
+            </button>
+          </div>
+        </div>
 
         {/* About Puja */}
         <section
@@ -650,81 +814,6 @@ function PujaDetail() {
             </p>
           </div>
         </section>
-
-        {/* Package selection */}
-        <section
-          className="pd-section pd-packages"
-          ref={(el) => {
-            sectionRefs.current.packages = el;
-          }}
-        >
-          <div className="pd-section-content">
-            <h2 className="pd-section-title">Select your puja package</h2>
-            <div className="pd-package-cards">
-              {getPackages(puja).map((pkg) => (
-                <button
-                  key={pkg.id}
-                  type="button"
-                  className={`pd-package-card ${
-                    selectedPackage?.id === pkg.id ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedPackage(pkg)}
-                >
-                  {selectedPackage?.id === pkg.id && (
-                    <span className="pd-package-check">✓</span>
-                  )}
-
-                  <div className="pd-package-info">
-                    <span className="pd-package-persons">
-                      {pkg.persons} Person{pkg.persons > 1 ? "s" : ""}
-                    </span>
-                    <h3 className="pd-package-name">{pkg.name}</h3>
-                    <span className="pd-package-price">{pkg.price}</span>
-                  </div>
-
-                  <div className="pd-package-image" />
-                </button>
-              ))}
-            </div>
-            {/* <div className="pd-trust-badges">
-              <span>🛡 ISO 27001 Certified Company</span>
-              <span>🏛 Official Temple Partner</span>
-              <span>🎧 Customer Support</span>
-            </div> */}
-          </div>
-        </section>
-
-        {/* Sticky footer CTA */}
-        <div className="pd-sticky-footer">
-          <div className="pd-sticky-content">
-            <div className="pd-sticky-left">
-              <div className="pd-sticky-price-block">
-                <span className="pd-sticky-price">
-                  {selectedPackage?.price?.toLocaleString("en-IN") || "0"}
-                </span>
-                <span className="pd-sticky-name">
-                  {selectedPackage?.name || "Select Package"}
-                </span>
-              </div>
-              <label className="pd-sticky-prasadam">
-                <input
-                  type="checkbox"
-                  checked={prasadam}
-                  onChange={(e) => setPrasadam(e.target.checked)}
-                />
-                <span>Prasadam (complimentary )</span>
-              </label>
-            </div>
-
-            <button
-              className={`pd-sticky-btn ${puja?.soldTag ? "sold-out" : ""}`}
-              onClick={handleGoToBilling}
-              disabled={loading || puja?.soldTag}
-            >
-              {puja?.soldTag ? "SOLD OUT" : loading ? "⏳ Processing..." : "Proceed to Payment →"}
-            </button>
-          </div>
-        </div>
 
         {/* Reviews & Ratings */}
         {/* <section

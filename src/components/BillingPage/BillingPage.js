@@ -192,6 +192,10 @@ function BillingPage() {
         participants: participants,
         appliedCoupon: couponApplied && coupon ? coupon.code : null,
 
+        grandTotal: finalPayable,
+        selectedPackage,
+        addonsTotal,
+
         ...(prasadam && { prasadam: true }),
       };
 
@@ -201,8 +205,10 @@ function BillingPage() {
 
       console.log("✅ Booking response:", res.data);
 
-      if (res.data.success && res.data.razorpayOrderId) {
-        loadRazorpay(res.data.razorpayOrderId, finalPayable);
+      const orderId =
+        res.data.razorpayOrderId || res.data.orderId || res.data.order_id;
+      if (res.data.success && orderId) {
+        loadRazorpay(orderId, finalPayable);
       } else {
         alert(res.data.message || "Failed to create order. Please try again.");
       }
@@ -242,12 +248,15 @@ function BillingPage() {
     }
 
     const razorpayKey = process.env.REACT_APP_RAZORPAY_KEY_ID;
-
-    // 🔍 Add this to debug
-    console.log("🔑 Key being used:", razorpayKey);
+    console.log("🔑 Razorpay key:", razorpayKey, "| order_id:", orderId);
 
     if (!razorpayKey) {
       alert("Razorpay key missing. Check your .env file.");
+      return;
+    }
+    if (!orderId || typeof orderId !== "string" || !orderId.startsWith("order_")) {
+      console.error("Invalid order_id from backend:", orderId);
+      alert("Invalid order from server. Please try again.");
       return;
     }
 
@@ -293,10 +302,16 @@ function BillingPage() {
           isCouponApplied: couponApplied,
           discountAmount,
           poojaId: puja?._id || puja?.id,
-          date: selectedPackage?.date || null,
+          date:
+            selectedPackage?.date ||
+            puja?.date ||
+            (puja?.eventDate
+              ? new Date(puja.eventDate).toLocaleDateString("en-IN")
+              : null),
           grandTotal: finalPayable,
           puja,
           selectedPackage,
+          image: image || null,
           addons,
           addonsTotal,
           prasadam,
@@ -325,13 +340,16 @@ function BillingPage() {
       },
     };
 
-    console.log("💳 Opening Razorpay with:", {
-      orderId,
-      amount: amount * 100,
-      key: options.key ? "SET" : "MISSING ⚠️",
-    });
-
     const rzp = new window.Razorpay(options);
+    rzp.on("payment.failed", function (response) {
+      console.error("❌ Razorpay payment failed:", response.error);
+      const msg = response.error?.description || response.error?.reason || "Payment failed.";
+      if (response.error?.code === "BAD_REQUEST_ERROR" && msg.includes("id") && msg.includes("not exist")) {
+        alert("Payment error: Razorpay key mismatch. Ensure REACT_APP_RAZORPAY_KEY_ID in .env matches your backend Razorpay key exactly. Restart the dev server after changing .env.");
+      } else {
+        alert(`Payment failed: ${msg}`);
+      }
+    });
     rzp.open();
   };
 

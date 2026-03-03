@@ -10,6 +10,7 @@
   }
   
   .features-title {
+    font-family: var(--font-heading);
     font-size: 18px;
     font-weight: 700;
     color: #1a1a1a;
@@ -74,6 +75,7 @@
   }
   
   .features-articles-heading {
+    font-family: var(--font-heading);
     font-size: clamp(1.25rem, 2.5vw, 1.5rem);
     font-weight: 700;
     color: #1a1a1a;

@@ -10,6 +10,7 @@
   }
   
   .articles-main-heading {
+    font-family: var(--font-heading);
     font-size: clamp(1.35rem, 3vw, 1.75rem);
     font-weight: 700;
     color: #1a1a1a;

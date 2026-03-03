@@ -10,6 +10,7 @@
 }
 
 .faq-heading {
+  font-family: var(--font-heading);
   font-size: clamp(1.5rem, 4vw, 1.75rem);
   font-weight: 700;
   color: #1a1a1a;
@@ -128,6 +129,7 @@
 }
 
 .faq-benefit-title {
+  font-family: var(--font-heading);
   font-size: clamp(1.125rem, 2.5vw, 1.3125rem);
   font-weight: 600;
   color: #1a1a1a;

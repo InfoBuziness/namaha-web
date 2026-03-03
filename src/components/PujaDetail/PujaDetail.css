@@ -25,7 +25,7 @@
 
 .pd-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.2fr);
   gap: 2.5rem;
   align-items: start;
 }
@@ -50,8 +50,10 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1 / 1;
   min-height: 320px;
+  max-width: 1524px;
+  max-height: 1524px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +214,34 @@
 .pd-details {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 1.25rem;
+  width: 100%;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.pd-details .pd-title {
+  margin: 0;
+}
+
+.pd-details .pd-purpose {
+  margin: 0;
+}
+
+.pd-details .pd-meta {
+  margin: 0;
+}
+
+.pd-details .pd-meta:last-of-type {
+  margin: 0;
+}
+
+.pd-details .pd-countdown-label {
+  margin: 0;
+}
+
+.pd-details .pd-countdown {
+  margin: 0;
 }
 
 .pd-category {
@@ -225,11 +254,13 @@
 }
 
 .pd-title {
-  font-size: 1.5rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw + 1rem, 2.5rem);
   font-weight: 700;
   color: #1f2937;
   margin: 0;
   line-height: 1.35;
+  max-width: 100%;
 }
 
 .pd-purpose {
@@ -261,14 +292,16 @@
 .pd-countdown {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .pd-countdown-item {
+  flex: 1;
+  min-width: 0;
   background: #fef3c7;
   border-radius: 10px;
-  padding: 12px 16px;
-  min-width: 70px;
+  padding: 12px 10px;
   text-align: center;
   border: 1px solid #fde68a;
 }
@@ -327,27 +360,261 @@
 }
 
 .pd-cta {
-  margin-top: 1rem;
-  width: 100%;
-  max-width: 320px;
-  background: #16a34a;
+  margin-top: 0.25rem;
+  width: fit-content;
+  min-width: 180px;
+  background: #ea580c;
   color: #fff;
   border: none;
-  padding: 14px 24px;
+  padding: 10px 20px;
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 
 
 .pd-cta:hover {
-  background: #15803d;
+  background: #c2410c;
+}
+
+/* ----- How it Works ----- */
+.pd-how-it-works {
+  margin-top: 2rem;
+  padding: 2.5rem 1.5rem 2rem;
+  background: #faf8f5;
+  border-bottom: 1px solid #e8e4df;
+}
+
+.pd-how-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #c2410c;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.pd-how-ornament {
+  font-size: 0.9rem;
+  color: #5c4033;
+  opacity: 0.9;
+}
+
+.pd-how-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pd-how-step {
+  flex: 1;
+  min-width: 140px;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pd-how-icon-wrap {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.pd-how-icon-wrap.pd-how-icon-video {
+  cursor: pointer;
+}
+
+.pd-how-icon-wrap.pd-how-icon-video:hover {
+  opacity: 0.9;
+}
+
+/* Grid icon (4 squares) */
+.pd-how-icon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4px;
+  width: 40px;
+  height: 40px;
+}
+
+.pd-how-icon-grid span {
+  background: #5c4033;
+  border-radius: 4px;
+}
+
+.pd-how-icon-grid span.highlight {
+  background: #ea580c;
+}
+
+/* Form icon */
+.pd-how-icon-form {
+  position: relative;
+  width: 44px;
+  height: 36px;
+}
+
+.pd-how-form-field {
+  width: 100%;
+  height: 24px;
+  background: #e8d5c4;
+  border: 2px solid #5c4033;
+  border-radius: 6px;
+}
+
+.pd-how-form-check {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background: #5c4033;
+  color: #ea580c;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video icon with progress */
+.pd-how-icon-video-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 48px;
+}
+
+.pd-how-video-play {
+  width: 44px;
+  height: 28px;
+  background: #fdba74;
+  border-radius: 6px;
+  color: #ea580c;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-how-video-progress-wrap {
+  width: 100%;
+  height: 4px;
+  background: #e8d5c4;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pd-how-video-progress-fill {
+  height: 100%;
+  background: #ea580c;
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+/* Box icon */
+.pd-how-icon-box {
+  width: 40px;
+  height: 36px;
+  background: linear-gradient(145deg, #fdba74 0%, #f97316 100%);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(92, 64, 51, 0.3);
+}
+
+.pd-how-connector {
+  width: 32px;
+  height: 6px;
+  margin-top: 36px;
+  flex-shrink: 0;
+  background: #e8d5c4;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pd-how-connector-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: #ea580c;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.pd-how-connector-fill.filled {
+  width: 100%;
+}
+
+.pd-how-step-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.25rem;
+}
+
+.pd-how-step-subtitle {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+  .pd-how-it-works {
+    padding: 1.5rem 1rem;
+  }
+  .pd-how-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .pd-how-steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .pd-how-step {
+    max-width: 100%;
+  }
+  .pd-how-connector {
+    width: 6px;
+    height: 20px;
+    margin: 0;
+  }
+
+  .pd-how-connector-fill {
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    transition: height 0.3s ease;
+  }
+
+  .pd-how-connector-fill.filled {
+    height: 100%;
+  }
 }
 
 /* Not found */
@@ -458,6 +725,7 @@
 }
 
 .pd-section-title {
+  font-family: var(--font-heading);
   font-size: 18px;
   font-weight: 700;
   color: #1f2937;
@@ -668,9 +936,8 @@
 .pd-package-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
   margin-bottom: 1.5rem;
-  /* Make all grid items (cards) equal height so inner content can align */
   grid-auto-rows: 1fr;
   align-items: stretch;
 }
@@ -679,76 +946,111 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 1.25rem;
-  border: 2px solid #e5e7eb;
+  align-items: stretch;
   border-radius: 12px;
   background: #fff;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.2s;
-  /* ensure card fills the grid cell so inner elements can be pushed to bottom */
+  transition: border-color 0.2s, box-shadow 0.2s;
   height: 100%;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
 .pd-package-card:hover {
   border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .pd-package-card.selected {
   border-color: #ea580c;
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.2);
 }
 
-.pd-package-check {
+.pd-package-image-wrap {
+  width: 100%;
+  height: 220px;
+  min-height: 220px;
+  flex-shrink: 0;
+  background-color: #fef3c7;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.pd-package-price-tag {
   position: absolute;
   top: 12px;
   right: 12px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #ea580c;
+  background: #b91c1c;
   color: #fff;
-  font-size: 0.85rem;
-  display: none !important; /* hidden by default — only show when card is selected */
-  align-items: center;
-  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Only show the check bubble for the explicitly selected package card */
-.pd-package-card.selected .pd-package-check {
-  display: flex !important;
-}
-
-.pd-package-info {
-  margin-bottom: 0.75rem;
-}
-
-.pd-package-persons {
-  font-size: 0.8rem;
-  color: #6b7280;
-  display: block;
-  margin-bottom: 0.25rem;
+.pd-package-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .pd-package-name {
-  font-size: 1rem;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
   font-weight: 700;
   color: #1f2937;
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
 }
 
-.pd-package-price {
-  font-size: 1.25rem;
-  font-weight: 700;
+.pd-package-bullets {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  flex: 1;
+}
+
+.pd-package-bullets li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.45;
+}
+
+.pd-package-bullets li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
   color: #1f2937;
+  font-weight: 700;
 }
 
-.pd-package-image {
+.pd-package-btn {
   width: 100%;
-  height: 80px;
+  padding: 12px 20px;
+  background: #ea580c;
+  color: #fff;
+  border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  margin-top: auto;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.pd-package-btn:hover {
+  background: #c2410c;
 }
 
 .pd-trust-badges {
@@ -1155,10 +1457,15 @@
   }
 
   .pd-title {
-    font-size: 17px;
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+  }
+
+  .pd-countdown {
+    flex-wrap: wrap;
   }
 
   .pd-countdown-item {
+    flex: 1 1 calc(50% - 5px);
     min-width: 60px;
     padding: 10px 12px;
   }
@@ -1602,7 +1909,7 @@
   padding: 0 8px !important;
   background: #f8fafc;
   border-radius: 6px;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-body);
 }
 
 .pd-addon-controls {
