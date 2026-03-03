@@ -78,6 +78,7 @@
 }
 
 .chd-title {
+  font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 800;
   color: #111827;
@@ -149,6 +150,7 @@
 }
 
 .chd-offering-title {
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
   color: #111827;

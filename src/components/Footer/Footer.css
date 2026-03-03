@@ -40,6 +40,7 @@
   }
   
   .footer-brand-name {
+    font-family: var(--font-heading);
     font-size: 1.5rem;
     font-weight: 700;
     color: #fff;
@@ -53,6 +54,7 @@
   }
   
   .footer-heading {
+    font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
     color: #fff;

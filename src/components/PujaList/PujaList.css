@@ -310,6 +310,7 @@
   -webkit-overflow-scrolling: touch;
 }
 .filter-section h4 {
+  font-family: var(--font-heading);
   margin: 0 0 8px;
   font-size: 1rem;
   color: #374151;
@@ -569,6 +570,7 @@
 }
 
 .pl-card-title {
+    font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
     color: #1a1a1a;

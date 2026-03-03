@@ -34,6 +34,7 @@
 }
 
 .sp-header h2 {
+  font-family: var(--font-heading);
   margin: 0 0 16px;
   font-size: 2.5rem;
   font-weight: 700;
@@ -72,7 +73,7 @@
   max-width: 1524px;
   max-height: 1524px;
   flex-shrink: 0;
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-color: #1a1a1a;
@@ -80,6 +81,7 @@
 
 /* Card typography: bold title with spacing, light gray description & meta */
 .sp-cards .pl-card-title {
+  font-family: var(--font-heading);
   font-size: 1.125rem;
   font-weight: 700;
   color: #1a1a1a;

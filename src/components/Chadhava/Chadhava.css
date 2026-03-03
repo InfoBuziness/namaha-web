@@ -21,6 +21,7 @@
 }
 
 .ch-hero-title {
+  font-family: var(--font-heading);
   font-size: clamp(1.9rem, 3.3vw, 2.4rem);
   line-height: 1.25;
   font-weight: 800;
@@ -116,6 +117,7 @@
 }
 
 .ch-offerings-title {
+  font-family: var(--font-heading);
   font-size: 1.6rem;
   font-weight: 800;
   color: #111827;
@@ -161,6 +163,7 @@
 }
 
 .ch-card-title {
+  font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: 700;
   color: #111827;
