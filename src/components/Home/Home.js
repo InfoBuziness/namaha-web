@@ -42,12 +42,6 @@ const TRUST_STRIP_ITEMS = [
 function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [heroSlides, setHeroSlides] = useState([]);
-  const [showWhatsAppPopup, setShowWhatsAppPopup] = useState(false);
-  const [waForm, setWaForm] = useState({
-    name: "",
-    phone: "",
-    message: "",
-  });
 
   // ✅ Load slides from STATIC images
   useEffect(() => {
@@ -72,22 +66,6 @@ function Home() {
   }, [heroSlides]);
 
   const goToSlide = (index) => setCurrentSlide(index);
-
-  const handleWaChange = (e) => {
-    const { name, value } = e.target;
-    setWaForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleWaSubmit = (e) => {
-    e.preventDefault();
-    // For now just open WhatsApp with prefilled text (if phone present)
-    const text = encodeURIComponent(
-      `Name: ${waForm.name}\nPhone: ${waForm.phone}\nMessage: ${waForm.message}`
-    );
-    const url = `https://wa.me/919999999999?text=${text}`;
-    window.open(url, "_blank");
-    setShowWhatsAppPopup(false);
-  };
 
   return (
     <div className="App">
@@ -168,7 +146,7 @@ function Home() {
         type="button"
         className="wa-fab"
         aria-label="Chat on WhatsApp"
-        onClick={() => setShowWhatsAppPopup(true)}
+        onClick={() => window.open("https://wa.me/9059926363", "_blank")}
       >
         <span className="wa-fab-icon" aria-hidden="true">
           <svg
@@ -191,51 +169,6 @@ function Home() {
           </svg>
         </span>
       </button>
-
-      {/* WhatsApp contact popup */}
-      {showWhatsAppPopup && (
-        <div className="wa-popup-backdrop" role="dialog" aria-modal="true">
-          <div className="wa-popup">
-            <div className="wa-popup-header">
-              <h3>Chat with us on WhatsApp</h3>
-            </div>
-            <form className="wa-popup-form" onSubmit={handleWaSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your name"
-                value={waForm.name}
-                onChange={handleWaChange}
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone number"
-                value={waForm.phone}
-                onChange={handleWaChange}
-              />
-              <textarea
-                name="message"
-                placeholder="How can we help you?"
-                value={waForm.message}
-                onChange={handleWaChange}
-              />
-              <div className="wa-popup-actions">
-                <button
-                  type="button"
-                  className="wa-popup-cancel"
-                  onClick={() => setShowWhatsAppPopup(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="wa-popup-submit">
-                  Send on WhatsApp
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

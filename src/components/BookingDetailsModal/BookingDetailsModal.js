@@ -31,12 +31,16 @@ function BookingDetailsModal({ bookingId, onClose }) {
   }, [bookingId, fetchBookingDetails]);
 
   const formatDate = (dateStr) => {
-    const [day, month, year] = dateStr.split('/');
+    if (!dateStr) return "-";
+    const parts = dateStr.split("/");
+    if (parts.length !== 3) return dateStr;
+    const [day, month, year] = parts;
     const date = new Date(year, month - 1, day);
-    return date.toLocaleDateString('en-GB', { 
-      day: '2-digit', 
-      month: 'short', 
-      year: 'numeric' 
+    if (Number.isNaN(date.getTime())) return dateStr;
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
     });
   };
 
@@ -93,7 +97,11 @@ function BookingDetailsModal({ bookingId, onClose }) {
           <div className="modal-body">
             {/* Header */}
             <div className="modal-header">
-              <h2>{booking.pooja?.name || "Puja Booking"}</h2>
+              <h2>
+                {booking.bookingSnapshot?.puja?.title ||
+                  booking.pooja?.name ||
+                  "Puja Booking"}
+              </h2>
               <span 
                 className="modal-status-badge"
                 style={{ backgroundColor: getStatusColor(booking.status) }}
@@ -110,95 +118,150 @@ function BookingDetailsModal({ bookingId, onClose }) {
 
             {/* Main Info Grid */}
             <div className="info-grid">
-              {/* Date & Time */}
+              {/* Puja & Date */}
               <div className="info-card">
-                <h3>📅 Date & Time</h3>
+                <h3>📅 Puja & Date</h3>
                 <p className="info-value">{formatDate(booking.date)}</p>
                 <p className="info-label">
-                  {booking.slots[0]?.start} - {booking.slots[booking.slots.length - 1]?.end}
+                  {booking.bookingSnapshot?.puja?.templeName ||
+                    booking.bookingSnapshot?.puja?.location}
                 </p>
-                <p className="info-label">Duration: {booking.pooja?.duration}</p>
+                <p className="info-label">
+                  Mode:{" "}
+                  {booking.bookingSnapshot?.puja?.mode ||
+                    booking.pooja?.mode ||
+                    "-"}
+                </p>
               </div>
 
-              {/* Mode */}
+              {/* Package Details */}
               <div className="info-card">
-                <h3>{booking.pooja?.mode === "online" ? "🖥️" : "📍"} Mode</h3>
-                <p className="info-value">{booking.pooja?.mode}</p>
-                {booking.pooja?.mode === "offline" && booking.location && (
-                  <p className="info-label">{booking.location.address}</p>
+                <h3>📦 Package</h3>
+                <p className="info-value">
+                  {booking.bookingSnapshot?.selectedPackage?.name || "-"}
+                </p>
+                <p className="info-label">
+                  Price: ₹
+                  {booking.bookingSnapshot?.selectedPackage?.price ??
+                    booking.price}
+                </p>
+                {booking.bookingSnapshot?.selectedPackage?.persons && (
+                  <p className="info-label">
+                    Persons: {booking.bookingSnapshot.selectedPackage.persons}
+                  </p>
                 )}
               </div>
 
-              {/* Price */}
+              {/* Price & Payment Status */}
               <div className="info-card">
                 <h3>💰 Price</h3>
-                <p className="info-value">₹{booking.payment?.amount?.toLocaleString('en-IN')}</p>
-                <p className="info-label">Status: {booking.payment?.status}</p>
+                <p className="info-value">
+                  ₹
+                  {(booking.bookingSnapshot?.grandTotal ?? booking.price)?.toLocaleString(
+                    "en-IN"
+                  )}
+                </p>
+                <p className="info-label">
+                  Payment status: {booking.paymentStatus || "-"}
+                </p>
               </div>
 
               {/* Payment Details */}
               <div className="info-card">
                 <h3>💳 Payment</h3>
-                <p className="info-label">Order ID: {booking.payment?.orderId?.substring(0, 20)}...</p>
-                <p className="info-label">Transaction: {booking.payment?.transactionId?.substring(0, 20)}...</p>
+                <p className="info-label">
+                  Order ID:{" "}
+                  {booking.razorpayOrderId
+                    ? `${booking.razorpayOrderId}`
+                    : "-"}
+                </p>
+                <p className="info-label">
+                  Payment ID:{" "}
+                  {booking.razorpayPaymentId
+                    ? `${booking.razorpayPaymentId}`
+                    : "-"}
+                </p>
+                {booking.invoicePdfUrl && (
+                  <p className="info-label">
+                    <a
+                      href={booking.invoicePdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Invoice PDF
+                    </a>
+                  </p>
+                )}
               </div>
             </div>
 
-            {/* Pandit Details */}
-            {booking.pandit && (
-              <div className="section-card">
-                <h3>👤 Pandit Details</h3>
-                <div className="pandit-detail-row">
-                  {booking.pandit.profileImage && (
-                    <img 
-                      src={booking.pandit.profileImage} 
-                      alt={booking.pandit.name}
-                      className="pandit-detail-avatar"
-                    />
-                  )}
-                  <div>
-                    <p className="pandit-detail-name">{booking.pandit.name}</p>
-                    <p className="pandit-detail-info">
-                      ⭐ {booking.pandit.rating} ({booking.pandit.reviewCount} reviews)
-                    </p>
-                    <p className="pandit-detail-info">
-                      Experience: {booking.pandit.experience} years
-                    </p>
-                    {booking.pandit.verified && (
-                      <span className="verified-badge">✓ Verified</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* User Details */}
-            {booking.user && (
+            {/* Devotee Details */}
+            {booking.devoteeDetails && (
               <div className="section-card">
                 <h3>👥 Devotee Details</h3>
                 <div className="detail-row">
                   <span>Name:</span>
-                  <span>{booking.user.name}</span>
+                  <span>{booking.devoteeDetails.name}</span>
                 </div>
                 <div className="detail-row">
                   <span>Mobile:</span>
-                  <span>{booking.user.mobile}</span>
+                  <span>{booking.devoteeDetails.phone}</span>
                 </div>
-                {booking.user.email && booking.user.email !== "N/A" && (
+                {booking.devoteeDetails.email && (
                   <div className="detail-row">
                     <span>Email:</span>
-                    <span>{booking.user.email}</span>
+                    <span>{booking.devoteeDetails.email}</span>
+                  </div>
+                )}
+                {booking.devoteeDetails.gotra && (
+                  <div className="detail-row">
+                    <span>Gotra:</span>
+                    <span>{booking.devoteeDetails.gotra}</span>
+                  </div>
+                )}
+                {booking.devoteeDetails.address && (
+                  <div className="detail-row">
+                    <span>Address:</span>
+                    <span>{booking.devoteeDetails.address}</span>
                   </div>
                 )}
               </div>
             )}
 
-            {/* Online Session */}
-            {booking.onlineSession && (
-              <div className="section-card online-session">
-                <h3>🎥 Online Session</h3>
-                <p className="channel-name">Channel: {booking.onlineSession.channelName}</p>
-                <button className="join-btn">Join Session</button>
+            {/* Participant Details */}
+            {booking.participants && booking.participants.length > 0 && (
+              <div className="section-card">
+                <h3>🧑‍🤝‍🧑 Participant Details</h3>
+                {booking.participants.map((p, index) => (
+                  <div key={p._id || index} className="detail-row">
+                    <span>
+                      {index + 1}. {p.name || "-"}
+                    </span>
+                    <span>
+                      {p.nakshatra && `Nakshatra: ${p.nakshatra} `}
+                      {p.gotra && `| Gotra: ${p.gotra}`}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Puja Details */}
+            {booking.bookingSnapshot?.puja && (
+              <div className="section-card">
+                <h3>🕉️ Puja Details</h3>
+                <div className="detail-row">
+                  <span>Temple:</span>
+                  <span>{booking.bookingSnapshot.puja.templeName}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Date:</span>
+                  <span>{booking.bookingSnapshot.puja.date}</span>
+                </div>
+                <div className="detail-row">
+                  <span>Duration:</span>
+                  <span>{booking.bookingSnapshot.puja.duration}</span>
+                </div>
               </div>
             )}
 
