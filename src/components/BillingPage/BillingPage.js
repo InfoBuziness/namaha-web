@@ -327,21 +327,20 @@ function BillingPage() {
             }
           );
 
-          // If backend generated an invoice PDF, ask it to send via WhatsApp
+          // If backend generated an invoice PDF, ask Interakt service to send via WhatsApp
           const pdfUrlFromBackend =
             confirmRes?.data?.invoicePdfUrl || confirmRes?.data?.pdfUrl || null;
           if (pdfUrlFromBackend) {
-            const safeName = `invoice-${confirmRes?.data?.bookingId || orderId}.pdf`;
-            const caption =
-              confirmRes?.data?.whatsAppCaption ||
-              `Your booking for ${puja.title} - ${selectedPackage?.name} is confirmed. Here is your invoice.`;
+            const finalOrderId =
+              confirmRes?.data?.bookingId || confirmRes?.data?.orderId || orderId;
+
             await sendInvoiceToBackend({
-              mobile: form.phone,
-              pdfUrl: pdfUrlFromBackend,
-              fileName: safeName,
-              caption,
+              phone: form.phone,
               name: form.name,
               email: form.email || "",
+              amount: finalPayable,
+              orderId: finalOrderId,
+              pdfUrl: pdfUrlFromBackend,
             });
           }
 
@@ -544,33 +543,56 @@ function BillingPage() {
   }
 
   // ================= SEND INVOICE PDF VIA WHATSAPP (backend helper) =================
+  // Mirrors the onBillingSuccess snippet provided (Interakt PDF send)
   const sendInvoiceToBackend = async ({
-    mobile,
-    pdfUrl,
-    fileName,
-    caption,
+    phone,
     name,
     email,
+    amount,
+    orderId,
+    pdfUrl,
   }) => {
-    if (!mobile || !pdfUrl || !fileName) {
+    if (!phone || !pdfUrl || !orderId) {
       console.warn("Skipping WhatsApp invoice send, missing data:", {
-        mobile,
+        phone,
         pdfUrl,
-        fileName,
+        orderId,
       });
       return;
     }
+
     try {
-      await axiosInstance.post("/send-pdf-whatsapp", {
-        mobile,
-        pdfUrl,
-        fileName,
-        caption,
-        name,
-        email,
-      });
+      const response = await fetch(
+        "https://api.shriaaum.com/api/send-pdf-whatsapp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            countryCode: "+91",
+            phoneNumber: phone, // expected without country code
+            pdfUrl: pdfUrl,
+            fileName: "invoice.pdf",
+            name,
+            email,
+            amount: `₹${amount}`, // amount as number → formatted string
+            orderId,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log(
+          "✅ Invoice sent to WhatsApp! Message ID:",
+          data.messageId
+        );
+        alert("Invoice sent to your WhatsApp! 📄");
+      } else {
+        console.error("❌ Failed sending WhatsApp PDF:", data.message);
+      }
     } catch (err) {
-      console.error("Failed to send invoice PDF via WhatsApp:", err.response?.data || err.message);
+      console.error("❌ Error sending WhatsApp PDF:", err);
     }
   };
 
