@@ -340,6 +340,8 @@ function BillingPage() {
               pdfUrl: pdfUrlFromBackend,
               fileName: safeName,
               caption,
+              name: form.name,
+              email: form.email || "",
             });
           }
 
@@ -542,7 +544,14 @@ function BillingPage() {
   }
 
   // ================= SEND INVOICE PDF VIA WHATSAPP (backend helper) =================
-  const sendInvoiceToBackend = async ({ mobile, pdfUrl, fileName, caption }) => {
+  const sendInvoiceToBackend = async ({
+    mobile,
+    pdfUrl,
+    fileName,
+    caption,
+    name,
+    email,
+  }) => {
     if (!mobile || !pdfUrl || !fileName) {
       console.warn("Skipping WhatsApp invoice send, missing data:", {
         mobile,
@@ -557,6 +566,8 @@ function BillingPage() {
         pdfUrl,
         fileName,
         caption,
+        name,
+        email,
       });
     } catch (err) {
       console.error("Failed to send invoice PDF via WhatsApp:", err.response?.data || err.message);
