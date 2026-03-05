@@ -36,12 +36,15 @@
   width: 140px; height: 140px; margin: 0 auto 1.5rem;
   border-radius: 50%; border: 5px solid #f8fafc;
   overflow: hidden; background: linear-gradient(135deg, #f0f2ff, #f7f5ff);
-  display: flex; align-items: center; justify-content: center;
+  position: relative;
 }
 
 .profile-avatar-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
 }
 
@@ -50,6 +53,90 @@
   gap: 0.75rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.avatar-adjust-section {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.avatar-adjust-header {
+  margin-bottom: 0.875rem;
+}
+
+.avatar-adjust-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.avatar-adjust-sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.avatar-adjust-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar-adjust-axis {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #475569;
+  min-width: 72px;
+}
+
+.avatar-adjust-slider {
+  flex: 1;
+  min-width: 0;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+}
+
+.avatar-adjust-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #667eea;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.avatar-adjust-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+}
+
+.avatar-adjust-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #667eea;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.avatar-adjust-slider::-moz-range-thumb:hover {
+  transform: scale(1.08);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
 }
 
 .avatar-btn {
