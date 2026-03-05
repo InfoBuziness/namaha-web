@@ -137,34 +137,32 @@
     background: gray;
   }
   
-  /* MOBILE - match PujaDetail carousel dimensions */
+  /* MOBILE - image full width */
   @media (max-width: 900px) {
     .billing-container {
       flex-direction: column;
     }
 
     .billing-left {
-      margin: 16px;
-      padding: 0;
+      margin: 0;
+      padding: 0 16px 16px;
       height: auto;
     }
 
     .billing-left-image-wrap {
       padding: 8px;
-      width: 300px;
-      max-width: 100%;
-      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .billing-left img {
-      width: 300px;
-      max-width: 100%;
+      width: 100%;
       min-height: 220px;
     }
 
     .billing-left-message {
       padding: 16px;
-      margin: 0 16px;
+      margin: 0;
     }
 
     .billing-left-message-title {
@@ -173,6 +171,25 @@
 
     .billing-left-message-text {
       font-size: 13px;
+    }
+  }
+
+  /* Small mobile (320px, 375px, 425px) - image 100% width */
+  @media (max-width: 425px) {
+    .billing-left {
+      padding: 0 8px 12px;
+    }
+
+    .billing-left-image-wrap {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .billing-left img {
+      width: 100%;
+      min-height: 200px;
     }
   }
   

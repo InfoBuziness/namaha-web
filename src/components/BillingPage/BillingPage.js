@@ -69,6 +69,21 @@ function BillingPage() {
     }
   }, [subtotal, couponApplied]);
 
+  /** Calculate discount from coupon: percentage = subtotal × value/100; fixed = flat amount. No maxDiscountAmount. */
+  const calcCouponDiscount = (coupon, amt) => {
+    if (!coupon) return 0;
+    const type = (coupon.discountType || "").toLowerCase();
+    const val = Number(coupon.discountValue) || 0;
+
+    if (type === "percentage") {
+      return (amt * val) / 100;
+    }
+    if (type === "fixed" || type === "amount") {
+      return Math.min(val, amt);
+    }
+    return 0;
+  };
+
   const handleApplyCoupon = async () => {
     setCouponError("");
     const entered = (couponInput || "").trim();
@@ -93,9 +108,11 @@ function BillingPage() {
       const data = res.data;
 
       if (data.success && data.valid === true) {
-        setAppliedCoupon(data.coupon ?? { code: entered, ...data.coupon });
-        setDiscountAmount(Number(data.discountAmount) || 0);
-        setFinalAmount(Number(data.finalAmount) ?? Math.max(subtotal - (Number(data.discountAmount) || 0), 0));
+        const couponObj = data.coupon ?? { code: entered, ...data.coupon };
+        setAppliedCoupon(couponObj);
+        const correctDiscount = calcCouponDiscount(couponObj, subtotal);
+        setDiscountAmount(correctDiscount);
+        setFinalAmount(Math.max(subtotal - correctDiscount, 0));
         setCouponError("");
       } else {
         setAppliedCoupon(null);
