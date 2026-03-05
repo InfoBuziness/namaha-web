@@ -150,7 +150,6 @@ function BillingPage() {
     location.state?.participants ??
     Array.from({ length: participantCount }, () => ({
       name: "",
-      nakshatra: "",
       gotra: "",
     }))
   );
@@ -192,6 +191,13 @@ function BillingPage() {
     // Validate required fields
     if (!form.name || !form.phone || !form.address) {
       alert("Please fill Name, Phone Number, and Address");
+      return;
+    }
+    const missingParticipantNames = participants
+      .map((p, i) => (p.name?.trim() ? null : i + 1))
+      .filter(Boolean);
+    if (missingParticipantNames.length > 0) {
+      alert(`Please enter Name for Participant ${missingParticipantNames.join(", ")}`);
       return;
     }
 
@@ -319,7 +325,6 @@ function BillingPage() {
           },
           participants: participants.map((p) => ({
             name: p.name || "",
-            nakshatra: p.nakshatra || "",
             gotra: p.gotra || "",
           })),
           coupon: couponApplied && appliedCoupon ? appliedCoupon : (couponApplied && coupon ? coupon : null),
@@ -436,12 +441,11 @@ function BillingPage() {
                 `<tr>
                   <td style="padding:4px 8px;">${index + 1}</td>
                   <td style="padding:4px 8px;">${p.name || "-"}</td>
-                  <td style="padding:4px 8px;">${p.nakshatra || "-"}</td>
                   <td style="padding:4px 8px;">${p.gotra || "-"}</td>
                 </tr>`
             )
             .join("")
-        : `<tr><td colspan="4" style="padding:4px 8px;">No participants listed</td></tr>`;
+        : `<tr><td colspan="3" style="padding:4px 8px;">No participants listed</td></tr>`;
 
     const addonsRows =
       addons && addons.length
@@ -502,7 +506,6 @@ function BillingPage() {
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Nakshatra</th>
                   <th>Gotra</th>
                 </tr>
               </thead>
@@ -838,18 +841,12 @@ function BillingPage() {
               <h4>Participant {index + 1}</h4>
 
               <input
-                placeholder="Name"
+                placeholder="Name *"
                 value={p.name}
                 onChange={(e) =>
                   handleParticipantChange(index, "name", e.target.value)
                 }
-              />
-              <input
-                placeholder="Nakshatra"
-                value={p.nakshatra}
-                onChange={(e) =>
-                  handleParticipantChange(index, "nakshatra", e.target.value)
-                }
+                required
               />
               <input
                 placeholder="Gotra"

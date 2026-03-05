@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
+import WhatsAppFAB from './components/WhatsAppFAB/WhatsAppFAB';
 import Home from './components/Home/Home';
 import SpecialPuja from './components/SpecialPuja/SpecialPuja';
 // import ArticlesSection from './components/ArticlesSection/ArticleSection';
@@ -20,6 +21,7 @@ import Contact from './components/Contact/Contact';
 function App() {
   return (
     <BrowserRouter>
+      <WhatsAppFAB />
       <Routes>
       <Route path="/login" element={<LoginPage />} />
 

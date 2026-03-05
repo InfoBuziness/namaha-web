@@ -9,6 +9,7 @@ function Profile() {
   const [saving, setSaving] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [imagePosition, setImagePosition] = useState({ x: 50, y: 35 }); // 0-100 each axis
   const [formData, setFormData] = useState({
     name: "",
     mobile: "",
@@ -58,6 +59,20 @@ function Profile() {
             user.avatar ||
             user.profilePic;
           if (imageUrl) setAvatarPreview(imageUrl);
+          const savedPos = localStorage.getItem("profile_avatar_position");
+          if (savedPos) {
+            try {
+              const parsed = JSON.parse(savedPos);
+              if (parsed && typeof parsed.x === "number" && typeof parsed.y === "number") {
+                setImagePosition({ x: parsed.x, y: parsed.y });
+              }
+            } catch {
+              const match = String(savedPos).match(/(\d+)\s*%\s*(\d+)/);
+              if (match) {
+                setImagePosition({ x: parseInt(match[1], 10), y: parseInt(match[2], 10) });
+              }
+            }
+          }
         }
       } catch (err) {
         console.error("Profile fetch error:", err);
@@ -170,6 +185,10 @@ function Profile() {
                   src={avatarPreview}
                   alt="Avatar"
                   className="profile-avatar-img"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: `${imagePosition.x}% ${imagePosition.y}%`,
+                  }}
                 />
               ) : (
                 <div className="avatar-placeholder">
@@ -213,6 +232,49 @@ function Profile() {
                 </button>
               )}
             </div>
+            {avatarPreview && (
+              <div className="avatar-adjust-section">
+                <div className="avatar-adjust-header">
+                  <span className="avatar-adjust-title">Position</span>
+                </div>
+                <div className="avatar-adjust-sliders">
+                  <div className="avatar-adjust-row">
+                    <span className="avatar-adjust-axis">Horizontal</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={imagePosition.x}
+                      onChange={(e) => {
+                        const x = parseInt(e.target.value, 10);
+                        const next = { ...imagePosition, x };
+                        setImagePosition(next);
+                        localStorage.setItem("profile_avatar_position", JSON.stringify(next));
+                      }}
+                      className="avatar-adjust-slider"
+                      aria-label="Horizontal position"
+                    />
+                  </div>
+                  <div className="avatar-adjust-row">
+                    <span className="avatar-adjust-axis">Vertical</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={imagePosition.y}
+                      onChange={(e) => {
+                        const y = parseInt(e.target.value, 10);
+                        const next = { ...imagePosition, y };
+                        setImagePosition(next);
+                        localStorage.setItem("profile_avatar_position", JSON.stringify(next));
+                      }}
+                      className="avatar-adjust-slider"
+                      aria-label="Vertical position"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* ✅ Status Badge */}
