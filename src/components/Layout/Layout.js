@@ -126,6 +126,7 @@ function Layout({ children }) {
     const isLoggedIn = !!localStorage.getItem('token');
     console.log('🔐 isLoggedIn:', isLoggedIn, 'user:', user); // Debug
     const SHOW_PROFILE_MENU = false; // Hide profile in all views (keep code)
+    const SHOW_LOGIN_BUTTON = false; // Hide login button in header/layout
 
     return (
         <div className="app-wrap">
@@ -292,9 +293,11 @@ function Layout({ children }) {
                             ) : null
                         ) : (
                             // ❌ NOT LOGGED IN: Show Login Button
-                            <Link to="/login" className="login-btn-header">
-                                Login
-                            </Link>
+                            SHOW_LOGIN_BUTTON ? (
+                                <Link to="/login" className="login-btn-header">
+                                    Login
+                                </Link>
+                            ) : null
                         )}
 
                         <button

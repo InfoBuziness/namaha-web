@@ -268,7 +268,7 @@ function BillingPage() {
 
       console.log("🚀 Booking payload:", payload);
 
-      const res = await axiosInstance.post("/bookings/booking", payload);
+      const res = await axiosInstance.post("/bookings/guest/booking", payload);
 
       console.log("✅ Booking response:", res.data);
 
@@ -290,8 +290,7 @@ function BillingPage() {
       });
 
       if (status === 401) {
-        alert("Session expired. Please login again.");
-        navigate("/login");
+        alert(message || "Unauthorized request. Please try again.");
         return;
       }
 
@@ -343,8 +342,8 @@ function BillingPage() {
 
       theme: { color: "#f96b26" },
 
-      // POST /api/bookings/booking/confirm-razorpay — call after user completes Razorpay.
-      // Full URL = baseURL + "/bookings/booking/confirm-razorpay" (e.g. https://developapi.shriaaum.com/api/bookings/booking/confirm-razorpay)
+      // POST /api/bookings/guest/booking/confirm-razorpay — call after user completes Razorpay.
+      // Full URL = baseURL + "/bookings/guest/booking/confirm-razorpay"
       handler: async function (response) {
         console.log("✅ Razorpay payment success:", response);
         const token = localStorage.getItem("token");
@@ -384,7 +383,7 @@ function BillingPage() {
         };
         try {
           const confirmRes = await axiosInstance.post(
-            "/bookings/booking/confirm-razorpay",
+            "/bookings/guest/booking/confirm-razorpay",
             payload,
             {
               withCredentials: true,
