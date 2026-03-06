@@ -72,14 +72,9 @@ function LoginPage() {
           setStep(3);
         } else {
           const returnTo = location.state?.returnTo;
-          if (returnTo === '/billing') {
-            try {
-              const saved = sessionStorage.getItem('billingReturnState');
-              sessionStorage.removeItem('billingReturnState');
-              navigate(returnTo, { state: saved ? JSON.parse(saved) : undefined });
-            } catch {
-              navigate(returnTo);
-            }
+          const returnState = location.state?.returnState;
+          if (returnTo) {
+            navigate(returnTo, returnState ? { state: returnState } : undefined);
           } else {
             navigate('/');
           }
@@ -114,14 +109,9 @@ function LoginPage() {
         localStorage.setItem('user', JSON.stringify(res.data.user));
       }
       const returnTo = location.state?.returnTo;
-      if (returnTo === '/billing') {
-        try {
-          const saved = sessionStorage.getItem('billingReturnState');
-          sessionStorage.removeItem('billingReturnState');
-          navigate(returnTo, { state: saved ? JSON.parse(saved) : undefined });
-        } catch {
-          navigate(returnTo);
-        }
+      const returnState = location.state?.returnState;
+      if (returnTo) {
+        navigate(returnTo, returnState ? { state: returnState } : undefined);
       } else {
         navigate('/');
       }
