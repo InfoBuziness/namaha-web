@@ -12,6 +12,10 @@ const Images = [
     id: 2,
     url: "https://shriaaum.s3.ap-south-1.amazonaws.com/images/shriaaum2.jpeg",
   },
+  {
+    id: 3,
+    url: "https://shriaaum.s3.ap-south-1.amazonaws.com/images/durga.jpeg",
+  },
 ];
 
 // 🔹 Static hero text
@@ -26,6 +30,11 @@ const HERO_CONTENT = [
     title: "Ram Lalla Returns to His Divine Abode, This Ram Navami is historic",
     subtitle:
       "Join the sacred Ram Janmotsav & Hanuman Sankat Mochan Mahapuja",
+  },
+  {
+    title: "Awaken Your Shakti Celebrate Chaitra Navratri",
+    subtitle:
+      "Lalita Gadhkalika Vindhyavasini Receive the blessings of Adi Shakti.",
   },
 ];
 
