@@ -160,7 +160,6 @@ function BillingPage() {
       name: "",
       email: "",
       phone: "",
-      gotra: "",
       address: "",
     }
   );
@@ -203,13 +202,13 @@ function BillingPage() {
   const lastAutoSaveKeyRef = useRef(null);
   const paymentStartedRef = useRef(false);
 
+  // Autosave when devotee form is filled (name, phone, address). Participants not required.
   const isFormValidForPending = useCallback(() => {
     if (!form.name?.trim() || !form.phone || !form.address?.trim()) return false;
     if (!/^\d{10}$/.test(form.phone)) return false;
     if (!puja?.id && !puja?._id) return false;
-    const allNamesFilled = participants.every((p) => (p.name || "").trim());
-    return allNamesFilled;
-  }, [form.name, form.phone, form.address, puja?.id, puja?._id, participants]);
+    return true;
+  }, [form.name, form.phone, form.address, puja?.id, puja?._id]);
 
   useEffect(() => {
     if (!isFormValidForPending() || loading) return;
@@ -220,7 +219,6 @@ function BillingPage() {
       name: form.name,
       phone: form.phone,
       email: form.email,
-      gotra: form.gotra,
       address: form.address,
       participants,
       prasadam,
@@ -493,7 +491,6 @@ function BillingPage() {
             name: form.name,
             email: form.email || "",
             phone: form.phone,
-            gotra: form.gotra || "",
             address: form.address || "",
           },
           participants: participants.map((p) => ({
@@ -669,7 +666,6 @@ function BillingPage() {
             <p style="margin:4px 0;">Name: <strong>${devoteeDetails?.name || "-"}</strong></p>
             <p style="margin:4px 0;">Phone: <strong>${devoteeDetails?.phone || "-"}</strong></p>
             <p style="margin:4px 0;">Email: <strong>${devoteeDetails?.email || "-"}</strong></p>
-            <p style="margin:4px 0;">Gotra: <strong>${devoteeDetails?.gotra || "-"}</strong></p>
             <p style="margin:4px 0;">Address: <strong>${devoteeDetails?.address || "-"}</strong></p>
           </div>
 
@@ -971,12 +967,6 @@ function BillingPage() {
             onChange={handleChange}
             maxLength={10}
             pattern="\d{10}"
-          />
-          <input
-            name="gotra"
-            placeholder="Gotra"
-            value={form.gotra}
-            onChange={handleChange}
           />
           <textarea
             name="address"

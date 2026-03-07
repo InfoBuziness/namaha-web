@@ -30,10 +30,13 @@ const normalizeBenefitTitles = (benefits) => {
 function PujaList() {
   const { pujas: pujaList, loading } = usePujaList();
 
-  // Sort by date ascending (earliest first)
-  const sortedPujas = [...pujaList].sort(
-    (a, b) => (a.eventDateRaw || 0) - (b.eventDateRaw || 0)
-  );
+  // Sort by rank first (ascending: lower rank = higher in list), then by eventDate
+  const sortedPujas = [...pujaList].sort((a, b) => {
+    const rankA = a.rank ?? 9999;
+    const rankB = b.rank ?? 9999;
+    if (rankA !== rankB) return rankA - rankB;
+    return (a.eventDateRaw || 0) - (b.eventDateRaw || 0);
+  });
 
   /* ================= LOADING ================= */
   if (loading) {

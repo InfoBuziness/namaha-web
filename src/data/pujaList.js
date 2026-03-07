@@ -6,6 +6,7 @@ import  { useState, useEffect } from "react";
 ===================================================== */
 const mapApiPujaToPUJA_LIST = (apiPuja) => ({
   id: apiPuja._id,
+  rank: apiPuja.rank ?? 9999,
   specialTag: apiPuja.category?.category || `${apiPuja.section} Special`,
   tagColor:
     apiPuja.section === "others"
@@ -120,6 +121,7 @@ const mapApiPujaToPUJA_LIST = (apiPuja) => ({
 export const PUJA_LIST = [
   {
     id: "1001",
+    rank: 1,
     eventDateRaw: new Date("2026-02-12").getTime(),
     specialTag: "MOST POPULAR",
     tagColor: "red",
@@ -154,6 +156,7 @@ export const PUJA_LIST = [
   },
   {
     id: "1002",
+    rank: 2,
     eventDateRaw: new Date("2026-02-15").getTime(),
     specialTag: "WEALTH SPECIAL",
     tagColor: "green",
