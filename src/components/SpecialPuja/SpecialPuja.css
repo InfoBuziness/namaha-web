@@ -14,16 +14,21 @@
 
   .sp-header {
     margin-bottom: 28px;
+    text-align: left;
   }
 
   .sp-header h2 {
     font-size: 1.5rem;
     margin-bottom: 10px;
+    text-align: left;
   }
 
   .sp-subtitle {
     font-size: 0.9rem;
     line-height: 1.5;
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .sp-cards .pl-card-title {
@@ -89,12 +94,12 @@
 }
 
 .sp-subtitle {
-  margin: 0;
+  margin: 0 auto;
   font-size: 16px;
   color: #6b7280;
   line-height: 1.5;
   max-width: 640px;
-  margin: 0 auto;
+  text-align: center;
 }
 
 .sp-cards {
@@ -119,6 +124,11 @@
   background-position: center;
   background-repeat: no-repeat;
   background-color: #1a1a1a;
+}
+
+/* Lighter overlay so image bottom content (temple, location) stays visible */
+.sp-cards .pl-card-banner .pl-card-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 55%);
 }
 
 /* Card typography: bold title with spacing, light gray description & meta */
@@ -223,16 +233,21 @@
 
   .sp-header {
     margin-bottom: 20px;
+    text-align: left;
   }
 
   .sp-header h2 {
     font-size: 1.25rem;
     margin-bottom: 8px;
+    text-align: left;
   }
 
   .sp-subtitle {
     font-size: 0.8rem;
     line-height: 1.45;
+    text-align: left;
+    margin-left: 0;
+    margin-right: auto;
   }
 
   .sp-cards .pl-card-title {

@@ -1,11 +1,11 @@
-﻿/* Section wrapper – sits nicely between other home sections */
+/* Section wrapper – sits nicely between other home sections */
 .updates-section {
   padding: 40px 16px 48px;
   background-color: #ffffff;
 }
 
 .updates-container {
-  max-width: 1100px;
+  max-width: 720px;
   margin: 0 auto;
 }
 

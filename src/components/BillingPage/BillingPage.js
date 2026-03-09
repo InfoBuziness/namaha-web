@@ -189,6 +189,7 @@ function BillingPage() {
   }, [participantCount, participants.length]);
 
   const [loading, setLoading] = useState(false);
+  const [postPaymentLoading, setPostPaymentLoading] = useState(false);
   const [pendingBookingId, setPendingBookingId] = useState(() => {
     try {
       return sessionStorage.getItem("pendingBookingId") || null;
@@ -563,6 +564,8 @@ function BillingPage() {
         } catch (err) {
           console.error("Confirm payment error:", err);
           alert(err.response?.data?.message || "Failed to confirm booking. Please contact support.");
+        } finally {
+          setPostPaymentLoading(false);
         }
       },
 
@@ -794,6 +797,12 @@ function BillingPage() {
 
   return (
     <>
+    {postPaymentLoading && (
+      <div className="billing-post-payment-overlay" role="status" aria-live="polite">
+        <div className="billing-post-payment-spinner" aria-hidden="true" />
+        <p className="billing-post-payment-text">Confirming your booking…</p>
+      </div>
+    )}
     {showInvoiceModal && invoiceData && (
       <div className="billing-invoice-backdrop">
         <div className="billing-invoice-modal">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPujaList } from "../../data/pujaList";
+import { getPujaById } from "../../data/pujaList";
 import "./PujaDetail.css";
 import Footer from "../Footer/Footer";
 
@@ -197,34 +197,13 @@ function PujaDetail() {
     navigate("/billing", { state: billingState });
   };
 
-  // ✅ REPLACE with this (remove PACKAGES[0])
   useEffect(() => {
     const loadPuja = async () => {
+      if (!id) return;
       setLoading(true);
-      const pujaList = await fetchPujaList();
-
-      console.log("📋 URL param id:", id);
-      console.log(
-        "📋 pujaList IDs:",
-        pujaList.map((p) => p.id)
-      );
-
-      // ✅ TWO-STEP MATCH: full ID first, then last-4 fallback
-      const foundPuja =
-        pujaList.find((p) => p.id === id) ||
-        pujaList.find((p) => p.id.slice(-4) === id) ||
-        null;
-
-      console.log("📋 foundPuja:", foundPuja ? foundPuja.title : "NOT FOUND");
-      console.log("📋 foundPuja.id:", foundPuja?.id);
-
+      const foundPuja = await getPujaById(id);
       setPuja(foundPuja);
-
-      // ✅ FIX: Use getPackages instead of PACKAGES[0]
-      if (foundPuja) {
-        // Do not auto-select a package — let the user choose explicitly.
-        setSelectedPackage(null);
-      }
+      if (foundPuja) setSelectedPackage(null);
       setLoading(false);
     };
     loadPuja();
@@ -303,24 +282,22 @@ function PujaDetail() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [puja, isNavSticky]);
 
-  // 🔥 BULLETPROOF COUNTDOWN - Copy paste this EXACTLY
+  // Countdown to puja event date (use eventDateRaw when available; fallback to parsing puja.date)
   useEffect(() => {
-    // Run once when puja loads (empty deps)
-    if (!puja?.date) return;
-
-    console.log("🚀 Starting countdown for:", puja.date);
-
-    const parseDate = (dateStr) => {
-      const [day, month, year] = dateStr.split("/").map((n) => parseInt(n));
-      return new Date(year, month - 1, day, 23, 59, 59);
-    };
+    const eventTimeMs = puja?.eventDateRaw && puja.eventDateRaw > 0
+      ? puja.eventDateRaw
+      : (() => {
+          if (!puja?.date) return 0;
+          const d = new Date(puja.date);
+          return isNaN(d.getTime()) ? 0 : d.setHours(23, 59, 59, 999);
+        })();
+    if (!eventTimeMs) return;
 
     let intervalId;
 
     const tick = () => {
-      const eventTime = parseDate(puja.date).getTime();
       const now = Date.now();
-      const diff = eventTime - now;
+      const diff = eventTimeMs - now;
 
       if (diff <= 0) {
         setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });

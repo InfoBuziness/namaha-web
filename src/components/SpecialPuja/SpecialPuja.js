@@ -34,7 +34,12 @@ function SpecialPuja() {
               p.imageClass ||
               `sp-banner-${Math.floor(Math.random() * 3) + 1}`,
           }))
-          .sort((a, b) => (a.eventDateRaw || 0) - (b.eventDateRaw || 0));
+          .sort((a, b) => {
+            const dateA = a.eventDateRaw || 0;
+            const dateB = b.eventDateRaw || 0;
+            if (dateA !== dateB) return dateA - dateB;
+            return (a.rank ?? 9999) - (b.rank ?? 9999);
+          });
         console.log("✅ SpecialPuja mapped (sorted by date):", specialPujas);
         setPujas(specialPujas.slice(0, 4));
       })
@@ -84,8 +89,10 @@ function SpecialPuja() {
                   puja.bannerUrls?.[0]
                     ? {
                         backgroundImage: `url(${puja.bannerUrls[0].url})`,
-                        backgroundSize: "cover",
+                        backgroundSize: "contain",
                         backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                        backgroundColor: "#1a1a1a",
                       }
                     : {}
                 }
@@ -124,7 +131,7 @@ function SpecialPuja() {
               {/* occasion: auspicious date/event when puja is performed */}
               <p className="pl-card-meta pl-card-date">📅 {puja.date}</p>
               <Link to={`/puja/${puja.id}`} className="pl-card-participate">
-                PARTICIPATE →
+                Book Puja →
               </Link>
             </div>
           ))}
