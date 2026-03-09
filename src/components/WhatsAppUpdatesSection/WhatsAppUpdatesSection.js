@@ -24,7 +24,7 @@ const WhatsAppUpdates = () => {
             className="updates-button"
           >
            
-            <span className="updates-button-label">Join Updates Group</span>
+            <span className="updates-button-label">Join Group</span>
           </a>
         </div>
       </div>

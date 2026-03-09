@@ -26,17 +26,14 @@ const mapApiPujaToPUJA_LIST = (apiPuja) => ({
     `${
       apiPuja.section?.charAt(0).toUpperCase() + apiPuja.section?.slice(1)
     } Temple, India`,
-  eventDate: apiPuja.eventDate
-    ? new Date(apiPuja.eventDate).toLocaleDateString("en-IN")
-    : null,
-  eventDateRaw: apiPuja.eventDate
-    ? new Date(apiPuja.eventDate).getTime()
-    : apiPuja.createdAt
-    ? new Date(apiPuja.createdAt).getTime()
-    : 0,
-  date: apiPuja.eventDate
-    ? new Date(apiPuja.eventDate).toLocaleDateString("en-IN")
-    : new Date(apiPuja.createdAt).toLocaleDateString("en-IN"),
+  ...(() => {
+    const ev = apiPuja.eventDate ? new Date(apiPuja.eventDate) : null;
+    const fallback = apiPuja.createdAt ? new Date(apiPuja.createdAt) : null;
+    const d = ev && !isNaN(ev.getTime()) ? ev : fallback && !isNaN(fallback.getTime()) ? fallback : null;
+    if (!d) return { eventDate: null, eventDateRaw: 0, date: "—" };
+    const formatted = d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    return { eventDate: formatted, eventDateRaw: d.getTime(), date: formatted };
+  })(),
   addOns:
     apiPuja.addOns?.map((addon) => ({
       name: addon.name,
@@ -251,12 +248,38 @@ export function usePujaList() {
 
   return { pujas, loading, error };
 }
+/* =====================================================
+   FETCH SINGLE PUJA BY ID - uses GET /api/pooja/:id
+===================================================== */
+export const fetchPujaById = async (id) => {
+  if (!id) return null;
+  try {
+    const response = await axiosInstance.get(`/pooja/${id}`);
+    const raw = response.data;
+    if (!raw) return null;
+    // Handle wrapped responses: { pooja }, { data }, or raw array/object
+    let apiPuja = raw;
+    if (raw.pooja && typeof raw.pooja === "object") apiPuja = raw.pooja;
+    else if (raw.data && typeof raw.data === "object") apiPuja = raw.data;
+    const arr = Array.isArray(apiPuja) ? apiPuja : [apiPuja];
+    const mapped = arr.map(mapApiPujaToPUJA_LIST);
+    return mapped[0] || null;
+  } catch (error) {
+    if (error?.response?.status === 404) return null;
+    console.error("fetchPujaById failed:", error);
+    return null;
+  }
+};
+
 export const getPujaById = async (id) => {
   try {
+    const puja = await fetchPujaById(id);
+    if (puja) return puja;
+    // Fallback: fetch list and match (for legacy/short IDs)
     const allPujas = await fetchPujaList();
     return (
-      allPujas.find((p) => p.id === id) || // full match
-      allPujas.find((p) => p.id.slice(-4) === id) || // short ID fallback
+      allPujas.find((p) => p.id === id) ||
+      allPujas.find((p) => p.id && p.id.slice(-4) === id) ||
       null
     );
   } catch (error) {

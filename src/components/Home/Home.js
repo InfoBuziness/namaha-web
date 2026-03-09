@@ -27,7 +27,7 @@ const HERO_CONTENT = [
       "Powerful temple Mahapujas from sacred Ujjain kshetras to remove doshas, negativity and planetary obstacles.",
   },
   {
-    title: "Ram Lalla Returns to His Divine Abode, This Ram Navami is historic",
+    title: "Ram Lalla Returns to His Divine Abode",
     subtitle:
       "Join the sacred Ram Janmotsav & Hanuman Sankat Mochan Mahapuja",
   },

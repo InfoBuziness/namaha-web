@@ -430,6 +430,11 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
 }
 
+/* Lighter overlay for PujaList banners so image bottom content (temple, location) stays visible */
+.pl-upcoming .pl-card-banner .pl-card-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 55%);
+}
+
 .pl-card-tag {
     position: absolute;
     top: 12px;
@@ -964,6 +969,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  margin-bottom: -6px;
 }
 
 

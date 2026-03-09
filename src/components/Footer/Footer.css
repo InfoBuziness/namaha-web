@@ -83,7 +83,8 @@
   .footer-links .footer-link-text {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .footer-links a {
@@ -232,8 +233,8 @@
 
   .footer-top {
     grid-template-columns: 1fr 1fr;
-    column-gap: 12px;   /* small horizontal gap between Company & Services */
-    row-gap: 4px;       /* compact vertical spacing */
+    column-gap: 12px;
+    row-gap: 24px;      /* gap above Company, Services, and Address */
   }
 
   .footer-brand {
@@ -246,20 +247,20 @@
 
   .footer-bottom {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
   }
 
   .footer-legal {
-    text-align: center;
+    text-align: left;
   }
 
+  /* Align footer items to left */
   .footer-col,
   .footer-brand {
-    text-align: center;
+    text-align: left;
   }
 
-  /* Footer description: keep text left-aligned and compact on mobile */
   .footer-desc {
     text-align: left;
     margin-top: 6px;
@@ -268,6 +269,10 @@
   .footer-desc p {
     text-align: left;
     margin-bottom: 4px;
+  }
+
+  .footer-links {
+    text-align: left;
   }
 
   /* Tighter spacing for headings and lists on mobile */
@@ -280,12 +285,12 @@
   }
 
   .footer-address {
-    text-align: center;
+    text-align: left;
     margin-top: 4px;
   }
 
   .footer-social {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   /* Reduced font sizes for mobile */

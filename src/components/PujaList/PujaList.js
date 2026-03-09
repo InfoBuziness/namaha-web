@@ -30,12 +30,12 @@ const normalizeBenefitTitles = (benefits) => {
 function PujaList() {
   const { pujas: pujaList, loading } = usePujaList();
 
-  // Sort by rank first (ascending: lower rank = higher in list), then by eventDate
+  // Sort by eventDate first (earlier dates first), then by rank (for ties)
   const sortedPujas = [...pujaList].sort((a, b) => {
-    const rankA = a.rank ?? 9999;
-    const rankB = b.rank ?? 9999;
-    if (rankA !== rankB) return rankA - rankB;
-    return (a.eventDateRaw || 0) - (b.eventDateRaw || 0);
+    const dateA = a.eventDateRaw || 0;
+    const dateB = b.eventDateRaw || 0;
+    if (dateA !== dateB) return dateA - dateB;
+    return (a.rank ?? 9999) - (b.rank ?? 9999);
   });
 
   /* ================= LOADING ================= */
@@ -75,8 +75,10 @@ function PujaList() {
                   puja.bannerUrls?.[0]
                     ? {
                         backgroundImage: `url(${puja.bannerUrls[0].url})`,
-                        backgroundSize: "cover",
+                        backgroundSize: "contain",
                         backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                        backgroundColor: "#1a1a1a",
                       }
                     : {}
                 }
@@ -113,7 +115,7 @@ function PujaList() {
               <p className="pl-card-meta pl-card-date">📅 {puja.date}</p>
 
               <Link to={`/puja/${puja.id}`} className="pl-card-participate">
-                PARTICIPATE →
+                Book Puja →
               </Link>
             </div>
           ))}
